@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>GhostCart Referral</title></head>
+<body>
+  <p id="msg">Claiming referral…</p>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const ref = params.get('ref');
+    const extId = 'jecgpcofcohpbdldhaekcaaofnolklej'; // ← replace with your real extension ID
+
+    if (ref) {
+      if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage(extId, { action: 'claimReferral', referrerUid: ref }, (response) => {
+          if (response && response.success) {
+            document.getElementById('msg').textContent = '✅ Referral claimed! You helped someone earn lifetime premium.';
+          } else {
+            document.getElementById('msg').textContent = 'Please install GhostCart to claim this referral.';
+          }
+        });
+      } else {
+        document.getElementById('msg').textContent = 'Please install GhostCart to claim this referral.';
+      }
+    }
+  </script>
+</body>
+</html>
